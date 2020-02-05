@@ -1,14 +1,14 @@
-setwd("/Users/minhnguyen/Dropbox/WSU/Papers/PathwayReview/dataset/")
-path="/Users/minhnguyen/Dropbox/WSU/Papers/PathwayReview/dataset/"
-# setwd("/wsu/home/gd/gd03/gd0393/Pathway/dataset/");
-# path="/wsu/home/gd/gd03/gd0393/Pathway/dataset/"
+setwd("/Users/li11/myGit/pathwayReview/tempResults/")
+path="/Users/li11/myGit/pathwayReview/reviewDatasets/"
+
 
 iterno=2000
 PVAL <- 0.5
 maxDE=400
 
-source("https://bioconductor.org/biocLite.R")
-#biocLite("SPIA")
+
+
+#BiocManager::install("SPIA")
 library(SPIA)
 library("ROntoTools")
 # kpg <- keggPathwayGraphs("hsa")
@@ -16,7 +16,7 @@ library("ROntoTools")
 # kpg <- setNodeWeights(kpg, defaultWeight = 1)
 # kpn <- keggPathwayNames("hsa")
 # load("/wsu/home/gd/gd03/gd0393/Pathway/KEGG65.150Pathways.RData")
-load("/Users/minhnguyen/Dropbox/WSU/Papers/PathwayReview/KEGG65.150Pathways.RData")
+load("/Users/li11/myGit/pathwayReview/reviewDatasets/KEGG65.150Pathways.RData")
 kpg <- setEdgeWeights(kpg)
 kpg <- setNodeWeights(kpg, defaultWeight = 1)
 
@@ -101,6 +101,7 @@ runSPIA <- function (dataset) {
 # resList <- mclapply(X=samePlat,FUN=runSPIA,mc.cores=5)
 resList <- lapply(X=samePlat,FUN=runSPIA)
 
+runSPIA(samePlat[2]))
 save(resList,file="/Users/GaMinh/Dropbox/WSU/Papers/PathwayReview/alldatasetsSPIA.RData")
 
 ################ number of significant pathway ###########

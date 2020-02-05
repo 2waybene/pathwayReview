@@ -69,13 +69,15 @@ for (i in 1:length(gslist)) {
 }
 
 
+setwd("/Users/li11/myGit/pathwayReview")
+path ="reviewDatasets/"
 #generate the null distribution
-samePlat=c("GSE3467","GSE3678","GSE4107","GSE5281_EC",
-           "GSE5281_HIP","GSE5281_VCX","GSE8671","GSE8762",
+samePlat=c("GSE3467","GSE3678","GSE4107","GSE5281EC",
+           "GSE5281HIP","GSE5281VCX","GSE8671","GSE8762",
            "GSE9348","GSE14762","GSE15471","GSE16515","GSE18842","GSE19188",
-           "GSE19728","GSE20153","GSE21354","GSE14924_CD4",
-           "GSE14924_CD8","GSE16759","GSE19420","GSE23878","GSE24739_G0",
-           "GSE24739_G1","GSE32676","GSE4183","GSE7305")
+           "GSE19728","GSE20153","GSE21354","GSE14924CD4",
+           "GSE14924CD8","GSE16759","GSE19420","GSE23878","GSE24739G0",
+           "GSE24739G1","GSE32676","GSE4183","GSE7305")
 annotation="hgu133plus2.db"
 ctrSamples <- NULL
 for (i in 1:length(samePlat)) {
