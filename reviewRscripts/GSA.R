@@ -10,7 +10,7 @@ dataSets=c("GSE781", "GSE1297","GSE3467","GSE3585","GSE3678","GSE4107","GSE5281_
 
 iterno=1000
 
-# library(PADOG)
+library(PADOG)
 
 fishersMethod = function(x) {
   pchisq(-2 * sum(log(x)), df=2*length(x), lower=FALSE)

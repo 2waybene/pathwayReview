@@ -1,0 +1,76 @@
+GEO_ID,Disease,Normal,Condition,Pubmed_ID,Tissue,Platform
+GSE781,Renal cell carcinoma,5,12,14641932,Kidney      ,HG-U133A
+GSE14762,Renal cell carcinoma,12,9,19252501,Kidney      ,HG-U133 Plus 2.0
+GSE6357,Renal cell carcinoma,12,6,27063186,CD8+    T Cell ,HG-U133A
+GSE6344,Renal cell carcinoma,10,10,17699851,Clear cell RCC  cell RCC ,HG-U133A
+GSE48352,Renal cell carcinoma,8,24,NA,Kidney      ,HG-U133 Plus 2.0
+GSE1297,Alzheimer's disease ,9,7,14769913,Hippocampal CA1,HG-U133A
+GSE5281EC,Alzheimer's disease ,13,10,17077275,"Brain, Entorhinal Cortex  Entorhinal Cortex ",HG-U133 Plus 2.0
+GSE5281HIP,Alzheimer's disease ,13,10,17077275,"Brain, hippocampus   hippocampus  ",HG-U133 Plus 2.0
+GSE5281VCX,Alzheimer's disease ,12,19,17077275,"Brain, primary visual cortex primary visual cortex",HG-U133 Plus 2.0
+GSE16759,Alzheimer's disease ,8,4,20126538,Parietal lobe,HG-U133 Plus 2.0
+GSE3467,Thyroid cancer ,9,9,16365291,Thyroid      ,HG-U133 Plus 2.0
+GSE3678,Thyroid cancer ,7,7,NA,Thyroid      ,HG-U133 Plus 2.0
+GSE58545,Thyroid cancer ,18,27,26625260,Thyroid      ,HG-U133A
+GSE85457,Thyroid cancer ,3,4,NA,Thyroid      ,HG-U133 Plus 2.0
+GSE58689,Thyroid cancer ,18,27,26625260,Thyroid      ,HG-U133A
+GSE3585,Dilated cardiomyopathy ,5,7,17045896,"Heart, subendocardial left ventricular subendocardial left ventricular",HG-U133A
+GSE33970,Dilated cardiomyopathy ,18,5,NA,Whole blood and heart blood and heart,HG-U133 Plus 2.0
+GSE29819,Dilated cardiomyopathy ,12,14,22085907,"Heart, left and right left and right ventricular",HG-U133 Plus 2.0
+GSE79962,Dilated cardiomyopathy ,11,9,NA,Heart      ,HuGene-10st
+GSE21610,Dilated cardiomyopathy ,8,42,20460602,Heart      ,HG-U133 Plus 2.0
+GSE4107,Colorectal cancer ,10,12,17317818,Colonic mucosa,HG-U133 Plus 2.0
+GSE8671,Colorectal cancer ,32,32,18171984,Colon      ,HG-U133 Plus 2.0
+GSE9348,Colorectal cancer ,12,70,20143136,Colon      ,HG-U133 Plus 2.0
+GSE23878,Colorectal cancer ,19,19,21281787,Colon      ,HG-U133 Plus 2.0
+GSE4183,Colorectal cancer ,8,15,18776587,Colon      ,HG-U133 Plus 2.0
+GSE6956C,Prostate cancer ,11,36,18245496,Prostate      ,HG-U133 Plus 2.0
+GSE6956AA,Prostate cancer ,7,33,18245496,Prostate      ,HG-U133 Plus 2.0
+GSE55945,Prostate cancer ,7,12,19737960,Prostate      ,HG-U133 Plus 2.0
+GSE26910,Prostate cancer ,6,6,21611158,Prostate      ,HG-U133 Plus 2.0
+GSE104749,Prostate cancer ,4,4,NA,Prostate      ,HG-U133 Plus 2.0
+GSE8762,Huntington's disease ,10,12,17724341,Lymphocyte      ,HG-U133 Plus 2.0
+GSE24250,Huntington's disease ,6,8,21969577,Venous cellular whole blood cellular whole blood,HG-U133A
+GSE73655,Huntington's disease ,7,13,26756592,Subcutaneous adipose   adipose  ,HuGene-10st
+GSE45516,Huntington's disease ,3,6,24296361,Fibroblasts      ,HG-U133 Plus 2.0
+GSE37517,Huntington's disease ,5,8,22748968,Neural stem cell  stem cell ,HuGene-10st
+GSE9476,Acute Myeloid Leukemia,37,26,17910043,"Peripheral blood, bone marrow blood, bone marrow",HG-U133A
+GSE14924CD4,Acute Myeloid Leukemia,10,10,19710498,CD4 T Cell,HG-U133 Plus 2.0
+GSE14924CD8,Acute Myeloid Leukemia,11,10,19710498,CD8 T Cell,HG-U133 Plus 2.0
+GSE92778,Acute Myeloid Leukemia,6,6,29035359,Bone marrow stroma cells,HuGene-10st
+GSE68172,Acute Myeloid Leukemia,5,72,NA,"LSC, HSC and leukemic AML*",HG-U133 Plus 2.0
+GSE15471,Pancreatic cancer ,35,35,19260470,Pancreas      ,HG-U133 Plus 2.0
+GSE16515,Pancreatic cancer ,15,15,19732725,Pancreas      ,HG-U133 Plus 2.0
+GSE32676,Pancreatic cancer ,7,25,22261810,Pancreas      ,HG-U133 Plus 2.0
+GSE28735,Pancreatic cancer ,45,45,23918603,Pancreas      ,HuGene-10st
+GSE18670,Pancreatic cancer ,6,18,23157946,Pancreas      ,HG-U133 Plus 2.0
+GSE18842,Non-small cell lung cancer,44,44,20878980,Lung      ,HG-U133 Plus 2.0
+GSE19188,Non-small cell lung cancer,62,91,20421987,Lung      ,HG-U133 Plus 2.0
+GSE19804,Non-small cell lung cancer,60,60,20802022,Lung      ,HG-U133 Plus 2.0
+GSE50627,Non-small cell lung cancer,6,9,25881239,Lung      ,HuGene-10st
+GSE6044,Non-small cell lung cancer,5,31,18992152,Lung      ,HG-Focus
+GSE19728,Glioma,4,17,21836821,Brain      ,HG-U133 Plus 2.0
+GSE21354,Glioma,4,13,21836821,Brain      ,HG-U133 Plus 2.0
+GSE50161,Glioma,13,95,24078694,Brain      ,HG-U133 Plus 2.0
+GSE4290,Glioma,13,157,16616334,Brain      ,HG-U133 Plus 2.0
+GSE44971,Glioma,9,49,23660940,Brain      ,HG-U133 Plus 2.0
+GSE20153,Parkinson's disease ,8,8,20926834,B lymphocytes from peripheral lymphocytes,HG-U133 Plus 2.0
+GSE20291,Parkinson's disease ,20,15,15965975,Brain      ,HG-U133A
+GSE20164,Parkinson's disease ,5,6,20926834,Substantia nigra (midbrain),HG-U133A
+GSE7621,Parkinson's disease ,9,16,17571925,Substantia nigra (midbrain),HG-U133 Plus 2.0
+GSE19587,Parkinson's disease ,10,12,20837543,Brain      ,HG-U133 Plus 2.0
+GSE19420,Type II diabetes mellitus,12,12,22802091,Skeletal muscle vastus lateralis,HG-U133 Plus 2.0
+GSE39825,Type II diabetes mellitus,6,4,23919306,Fibroblasts (cell culture),HG U95Av2
+GSE26887,Type II diabetes mellitus,5,7,22427379,Left ventricle,HuGene-10st
+GSE21340,Type II diabetes mellitus,15,5,23919306,Skeletal muscle,HG U95Av2
+GSE38642,Type II diabetes mellitus,54,9,22768844,Pancreatic islets,HuGene-10st
+GSE24739G0,Chronic Myeloid Leukemia,4,8,21436996,Peripheral blood,HG-U133 Plus 2.0
+GSE24739G1,Chronic Myeloid Leukemia,4,8,21436996,Peripheral blood,HG-U133 Plus 2.0
+GSE33075,Chronic Myeloid Leukemia,18,9,22388797,Bone marrow,HG-U133 Plus 2.0
+GSE24739,Chronic Myeloid Leukemia,8,16,21436996,Peripheral blood and bone marrow,HG-U133 Plus 2.0
+GSE1418,Chronic Myeloid Leukemia,6,8,15618956,Bone marrow,HG-Focus
+GSE7305,Endometrial cancer ,10,10,17640886,Endometrium/Ovarian tissue,HG-U133 Plus 2.0
+GSE63678,Endometrial cancer ,5,7,26559525,Endometrium      ,HG-U133A
+GSE7803,Endometrial cancer ,10,31,17974957,Cervix and squamous cervical epitheillium,HG-U133A
+GSE17025,Endometrial cancer ,12,91,21619611,Endometrium      ,HG-U133 Plus 2.0
+GSE36389,Endometrial cancer ,7,13,NA,Endometrium      ,HG-U133A

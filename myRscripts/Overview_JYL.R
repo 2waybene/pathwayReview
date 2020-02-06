@@ -6,10 +6,10 @@ library(data.table)
 
 ############### FIGURE 2: ranks and p-values of individual method ############### 
 # library(vioplot)
-setwd("/Users/minhnguyen/Dropbox/WSU/Papers/PathwayReview/");
-path="/Users/minhnguyen/Dropbox/WSU/Papers/PathwayReview/"
+setwd("x:/myGit/pathwayReview/")
+path="x:/myGit/pathwayReview/"
 
-filename="/Users/minhnguyen/Dropbox/WSU/Papers/PathwayReview/dataset/datasetslist.txt"
+filename="x:/myGit/pathwayReview/reviewDatasets/datasetslist.txt"
 rndataSets = as.character(t(read.table(filename,header=F,sep="\t",stringsAsFactors=F)))
 
 methods <- c("FE", "WebGestalt", "GOstats", "KS", "WRS", "GSEA", "GSA", "PADOG", 

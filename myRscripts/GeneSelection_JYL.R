@@ -3,6 +3,9 @@ maxDE = 400
 
 dataset = "GSE18842"
 setwd("/Users/li11/myGit/pathwayReview/reviewDatasets/")
+setwd("x:/myGit/pathwayReview/reviewDatasets/")
+
+
 load(paste(dataset,"/",dataset,".RData",sep=""))   
 
 data <- get(paste("gene_",dataset,sep=""))
@@ -35,11 +38,11 @@ DEGenes <- foldChange[names(DEGenes)]
 ##  comparing dataset
 ##  non-small cell lung cancer
 ##==============================
-GSE19188
-GSE19188
-GSE19804
-GSE50627
-GSE6044
+#GSE19188
+#GSE19188
+#GSE19804
+#GSE50627
+#GSE6044
 
 dataset = "GSE18842"
 dataset = "GSE19188"
