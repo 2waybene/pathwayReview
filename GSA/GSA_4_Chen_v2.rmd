@@ -1,0 +1,275 @@
+---
+title: 'This is a note for Chen Lab on GSA analysis'
+author: 'Jianying Li'
+date: '13 October 2016'
+output:
+  html_document:
+    number_sections: true
+    toc: true
+    fig_width: 7
+    fig_height: 4.5
+    theme: readable
+    highlight: tango
+---
+
+# Introduction
+
+Yicheng helped David in Dr. Chen's lab to write a SAM-GSA code for microarray analysis. Here is a note for such analysis.
+
+Here are the files that are needed for the analysis
+
+* Normalized microarray data
+* GSA geneset
+* This program.
+
+# Load and check data
+
+```{r, message = FALSE}
+# Load packages
+library(samr)
+library(GSA)
+```
+
+Now that our packages are loaded, let's read in and take a peek at the data.
+
+Microarray Data 
+```{r, message=FALSE, warning=FALSE}
+
+
+# setwd("C:/Users/Huang/Desktop/microarray")
+# Or any other working directory
+
+#setwd("/Users/jianyingli/GSA_R/")
+#setwd("x:/project2016/GSA_by_R/")
+#setwd("/Users/li11/myGit/shortcourse/GSA_by_R/")
+#setwd("X:/myGit/shortcourse/GSA_R/")
+x1 <- read.csv("X:/myGit/shortcourse/GSA_R/NormedMicroarray.csv")
+
+# check data
+str(x1)
+```
+
+
+# Running SAM analysis
+
+```{r, message=FALSE, warning=FALSE}
+#Getting the class label
+
+str(matrix(rnorm(1000*9),ncol=9))
+x <- x1[3:10]
+y <- c(rep(1, 4), rep(2, 4))
+y
+
+```
+
+Fit the SAM analysis model and plot the results
+
+```{r results='asis'}
+samfit <- SAM(as.matrix(x), y, resp.type = "Two class unpaired")
+plot(samfit)
+```
+
+Prepare files for GSA now
+
+```{r, message=FALSE, warning=FALSE}
+z <- x1
+str(z)
+
+#Make "Gene name" as string
+z$X <- as.character(z$X)
+str(z)
+
+#Make "Gene symbol"" as string
+z$GeneSymbol <- as.character(z$GeneSymbol)
+str(z)
+
+
+data <- list(x = x, y = y, geneid = z$X, genenames = z$GeneSymbol, logged2 = TRUE)
+
+length(z$GeneSymbol)
+
+#There are many duplicated Gene Symbols
+length(unique(z$GeneSymbol))
+
+
+
+
+```
+
+# Working on GSA
+## Basic set up
+
+```{r , message=FALSE, warning=FALSE}
+
+## Setting the random seed for future validation
+set.seed(1234567)
+
+```
+
+
+## Load gene set database
+
+
+```{r , message=FALSE, warning=FALSE}
+
+
+clean.gmt.data <- function (db)
+{
+# db <- c1 
+# str(db)
+# db$geneset.names
+# db$geneset.descriptions
+ temp.geneset <- c(list())
+ for (i in 1:length(db$genesets))
+ {
+   temp.geneset[[i]] <- db$genesets[[i]]
+   if (length(which(temp.geneset[[i]]=="")) > 0 )
+   {
+      temp.geneset[[i]]  <- temp.geneset[[i]][-which(temp.geneset[[i]]=="")]
+   }
+ }
+ db$genesets <- temp.geneset 
+ return (db)
+}
+
+## Rename "Knowledge based gene sets (20161005).gmt" to geneset_2.gmt
+#c1 <- GSA.read.gmt("genset_2.gmt") 
+
+# original file
+c1 <- GSA.read.gmt("X:/myGit/pathwayReview/GSA/GSA_db/Knowledge_based_gene_sets_20161005.gmt")
+#c1 <- GSA.read.gmt("cleaningData/genset_2_correct.txt")
+#c1 <- GSA.read.gmt("cleaningData/genset_2_correct_from_1.txt")
+#c1 <- GSA.read.gmt("cleaningData/genset_2.txt")
+# GSA.read.gmt constructs a list of 3
+
+c1.cleaned <- clean.gmt.data(c1)
+str(c1)
+str(c1$genesets)
+
+print ("Gene sets in database file (20161005).gmt")
+c1$geneset.names
+
+```
+
+## Run GSA
+
+
+```{r  results = 'hide', message=FALSE, warning=FALSE}
+c1 <- c1.cleaned
+
+gsafit <- GSA(as.matrix(x), y, c1$genesets, z$GeneSymbol, resp.type = "Two class unpaired", nperms = 1000)
+
+## Do I need the unique gene symbol??
+#gsafit <- GSA(x, y, c1$genesets, unique(z$GeneSymbol), resp.type = "Two class unpaired", nperms = 1000)
+
+
+str(gsafit)
+plot(gsafit$GSA.scores)
+
+```
+
+
+
+```{r ,  message=FALSE, warning=FALSE}
+gsafit$fdr.lo
+gsafit$fdr.hi
+
+# To many and will NOT print it to the html file
+# gsafit$gene.scores
+
+GSA.plot(gsafit)
+
+GSA.listsets(gsafit, c1$geneset.names, FDRcut=.5)
+GSA.correlate(c1$genesets, z$GeneSymbol)
+
+gsa2 <- GSA.func(as.matrix(x), y, c1$genesets, z$GeneSymbol, resp.type = "Two class unpaired")
+#gsa2 <- GSA.func(x, y, c1$genesets, unique(z$GeneSymbol), resp.type = "Two class unpaired")
+str(gsa2)
+
+
+
+```
+
+## More on GSA
+
+
+```{r , message=FALSE, warning=FALSE}
+
+
+
+#for loop from 1:length(gsals$negative[,1])
+GSA.genescores(5, c1$genesets, gsafit, z$GeneSymbol)
+GSA.plot(gsafit, fac = 1, FDRcut = 1)
+
+gsals <- GSA.listsets(gsafit, c1$geneset.names, FDRcut=.5)
+str(gsals)
+str(gsals$negative)
+gsals$negative[,1]
+length(gsals$negative[,1])
+as.numeric(gsals$negative[,1][1])
+GSA.genescores(as.numeric(gsals$negative[,1][1]), c1$genesets, gsafit, z$GeneSymbol)
+
+
+```
+
+
+## Export results
+
+
+```{r , message=FALSE, warning=FALSE}
+## sink() function does not work well with rmarkdown, 
+
+#sink("V1-GSA-TF-negative.txt")
+for (i in 1:length(gsals$negative[,1])){
+  print(gsals$negative[,2][i])
+  print(GSA.genescores(as.numeric(gsals$negative[,1][i]),
+                 c1$genesets, gsafit, z$GeneSymbol))
+  cat("\n")
+  
+}
+#sink()
+
+#sink("V1-GSA-TF-positive.txt")
+
+for (i in 1:length(gsals$positive[,1])){
+  print(gsals$positive[,2][i])
+  print(GSA.genescores(as.numeric(gsals$positive[,1][i]),
+                       c1$genesets, gsafit, z$GeneSymbol))
+  cat("\n")
+  
+}
+#sink()
+
+#print GSA -TF output
+#sink("V1-GSA-TF-output.txt")
+print(GSA.listsets(gsafit, c1$geneset.names, FDRcut=.5))
+#sink()
+
+#Print negative names
+
+#sink("v2-negativenames.txt")
+print ("Negaivie names")
+for (i in as.numeric(gsals$negative[,1])){
+  print(c1$geneset.names[i])
+  
+}
+#sink()
+
+#print positivenames
+
+#sink("V1-positivenames.txt")
+print ("Positivie names")
+for (i in as.numeric(gsals$positive[,1])){
+  print(c1$geneset.names[i])
+  
+}
+#sink()
+
+```
+
+
+# Conclusion
+
+This is a valid way to document analysis.
+
+---
