@@ -364,11 +364,12 @@ for (i in 1:(length(dataSets))) {
   
   gseares <- GSEA(input.ds = data,
                   input.cls = clsfile,
-                  gs.db = "gene_sets_db/tinkegg_ROT.gmt",
+                 # gs.db = "gene_sets_db/tinkegg_ROT.gmt",
+                  gs.db = "gene_sets_db/c2.cp.kegg.v7.0.entrez.gmt",
                   #output.directory = "gsea_stored_results/",
                   output.directory = "",
                   doc.string= "kegg",
-                  non.interactive.run   = F,               
+              #    non.interactive.run   = F,               
                   reshuffling.type      = "sample.labels", 
                   nperm                 = 1000,
                   weighted.score.type   =  1,            
@@ -386,7 +387,7 @@ for (i in 1:(length(dataSets))) {
                   fraction              = 1.0,           
                   replace               = F,             
                   save.intermediate.results = F,         
-                  OLD.GSEA              = F,             
+                #  OLD.GSEA              = F,             
                   use.fast.enrichment.routine = T)
   
   
