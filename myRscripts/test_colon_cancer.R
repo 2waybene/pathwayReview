@@ -9,7 +9,7 @@
 #GSE4183	Colorectal cancer 	8	15	18776587	Colon      	HG-U133 Plus 2.0
 
 #
-BiocManager::install("hgu133a2.db")
+#BiocManager::install("hgu133a2.db")
 
 library("hgu133plus2.db")
 library("hgu95a.db")
@@ -33,11 +33,13 @@ library(data.table)
 ############### FIGURE 2: ranks and p-values of individual method ############### 
 # library(vioplot)
 
-
+##  windows
 setwd("x:/myGit/pathwayReview/")
 path="x:/myGit/pathwayReview/"
 filename="x:/myGit/pathwayReview/reviewDatasets/datasetslist.txt"
 
+
+##  macOS
 setwd("/Users/li11/myGit/pathwayReview/")
 path="/Users/li11//myGit/pathwayReview/"
 filename="/Users/li11//myGit/pathwayReview/reviewDatasets/datasetslist.txt"
@@ -74,16 +76,13 @@ length(keggnodes)
 length(allGenes)
 #4711
 
-#mymapping=as.data.frame(org.Hs.egSYMBOL)
-#mygeneSym=as.character(mymapping$symbol)
-#names(mygeneSym)=mymapping$gene_id
-#load("/Users/GaMinh/Dropbox/WSU/Papers/PathwayReview/mygeneSym.RData")
-#load("/wsu/home/gd/gd03/gd0393/Pathway/mygeneSym.RData")
 
-##==================
-##  "ROntoTools",
-##==================
-myData <- list()
+
+##============================================
+##  "ROntoTools" method
+##  Still evaluation
+##============================================
+myROntoTools <- list()
 for(i in 1:(length(dataSets))) {
   
   dataset=dataSets[i]
@@ -142,33 +141,23 @@ for(i in 1:(length(dataSets))) {
   
   length(DEGenes)
   
+  kpg <- setNodeWeights(kpg, weights = alphaMLG(pvalues), defaultWeight = 1)
   peRes=pe(x=DEGenes,graphs=kpg,ref=names(foldChange),nboot=iterno)
   temp <-Summary(peRes, pathNames = kpn, totalAcc = FALSE, totalPert = FALSE,
                pAcc = FALSE, pORA = FALSE, comb.pv = NULL, order.by = "pPert")
-  
-#  temp <- Summary(peRes)
- # temp <- cbind.data.frame(temp,kpn[rownames(temp)])
-  #colnames(temp) <- c(colnames(Summary(peRes)), "pathway")
-  
-  # XX <- rep(NA,length(kpn))
-  # temp1=data.frame(row.names=names(kpn), Name=kpn, pPert=XX, 
-  #                  pPert.adj=XX, )
-  
-  #temp <- cbind.data.frame(temp$pathway, temp$pComb)
-  # rownames(temp) <- rownames(Summary(peRes))
-  # temp = na.omit(temp)
-  # head(temp)
-  myData[[i]] <- temp
+  res.w.rank <- cbind (temp, as.data.frame(list ("Rank" = c(1:dim(temp)[1]))))
+  myROntoTools [[i]] <- res.w.rank 
 }
 
-names(myData) <- dataSets
-save(myData,file=paste(path, "researchDatasets/colonCancer_ROntoTools.RData",sep=""))
+names(myROntoTools ) <- dataSets
+save(myROntoTools ,file=paste(path, "researchDatasets/colonCancer_ROntoTools.RData",sep=""))
 
 ## 
 ##==================
 ##  "FE",
+##  Good here!
 ##==================
-myData <- list()
+myFE <- list()
 for(i in 1:(length(dataSets))) {
   
   dataset=dataSets[i]
@@ -238,18 +227,20 @@ for(i in 1:(length(dataSets))) {
     temp[pw,"pvalue"] <- fisher$p.value
   }
   temp$rank <- rank(temp[,2],ties.method="min")
-  myData[[i]] <- temp
+  myFE[[i]] <- temp
 }
 
-names(myData) <- dataSets
-save(myData,file=paste(path, "researchDatasets/colonCancer_FE.RData",sep=""))
+names(myFE) <- dataSets
+save(myFE,file=paste(path, "researchDatasets/colonCancer_FE.RData",sep=""))
 
+load("x:/myGit/pathwayReview/researchDatasets/colonCancer_FE.RData")
+mymyFE
 ##=================
 ##  GSA
+##  Good here!
 ##=================
 library("PADOG")
 iterno=1000
-
 
 
 fishersMethod = function(x) {
@@ -442,7 +433,7 @@ rownames(myGSEAComb)=names(kpn)
 myGSEAComb[,"Name"]=kpn
 
 
-myData <- list()
+myGSEARes <- list()
 for (i in 1:(length(dataSets))) {
   dataset=dataSets[i]
   load(paste(path,"reviewDatasets/", dataset,"/",dataset,".RData",sep=""))
@@ -451,17 +442,17 @@ for (i in 1:(length(dataSets))) {
   data=get(paste("data_",dataset,sep=""))
   
   data=getGeneExpression(data, annotation, allGenes)
-  rownames(data)=paste("hsa:", rownames(data), sep="") 
+ # rownames(data)=paste("hsa:", rownames(data), sep="") 
   data=data[,group$Sample]
   clsfile <- classFileCreation(group, datasetdir="gsea_stored_datasets")
   
   gseares <- GSEA(input.ds = data,
                   input.cls = clsfile,
-                  gs.db = "gene_sets_db/tinkegg_ROT.gmt",
+                  gs.db = "GSEA/GSEA_db/c2.cp.kegg.v7.0.entrez.gmt",
                   #output.directory = "gsea_stored_results/",
-                  output.directory = "",
+                  output.directory = "GSEA/",
                   doc.string= "kegg",
-                  non.interactive.run   = F,               
+               #   non.interactive.run   = F,               
                   reshuffling.type      = "sample.labels", 
                   nperm                 = 1000,
                   weighted.score.type   =  1,            
@@ -479,7 +470,7 @@ for (i in 1:(length(dataSets))) {
                   fraction              = 1.0,           
                   replace               = F,             
                   save.intermediate.results = F,         
-                  OLD.GSEA              = F,             
+               #   OLD.GSEA              = F,             
                   use.fast.enrichment.routine = T)
   
   
@@ -497,10 +488,10 @@ for (i in 1:(length(dataSets))) {
   
   temp <- res[,c(3,6,15)]
   colnames(temp) = c("Pathway", "pvalue", "rank")
-  myData[[i]] <- temp
+  myGSEARes[[i]] <- temp
   # myGSEARes[[length(myGSEARes)+1]]=res;
 }
-names(myData) = dataSets
+names(myGSEARes) = dataSets
 
 for (meth in names(pValCombMethods)){
   myGSEAComb[,paste("p",meth,sep="")] = apply(myGSEAComb[,2:(1+length(dataSets))],1,pValCombMethods[[meth]])
@@ -510,5 +501,5 @@ for (meth in names(pValCombMethods)){
 myGSEAComb=myGSEAComb[order(rownames(myGSEAComb)),]
 myGSEAComb=myGSEAComb[order(myGSEAComb[,"pEdgington"]),]
 
-save(myData,file=paste(path, "researchDatasets/colonCancer_GSEA.RData",sep=""))
+save(myGSEARes,file=paste(path, "researchDatasets/colonCancer_GSEA.RData",sep=""))
 
