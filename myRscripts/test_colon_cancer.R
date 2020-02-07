@@ -8,6 +8,8 @@
 #GSE23878	Colorectal cancer 	19	19	21281787	Colon      	HG-U133 Plus 2.0
 #GSE4183	Colorectal cancer 	8	15	18776587	Colon      	HG-U133 Plus 2.0
 
+#
+BiocManager::install("hgu133a2.db")
 
 library("hgu133plus2.db")
 library("hgu95a.db")
@@ -30,10 +32,16 @@ library(data.table)
 
 ############### FIGURE 2: ranks and p-values of individual method ############### 
 # library(vioplot)
+
+
 setwd("x:/myGit/pathwayReview/")
 path="x:/myGit/pathwayReview/"
-
 filename="x:/myGit/pathwayReview/reviewDatasets/datasetslist.txt"
+
+setwd("/Users/li11/myGit/pathwayReview/")
+path="/Users/li11//myGit/pathwayReview/"
+filename="/Users/li11//myGit/pathwayReview/reviewDatasets/datasetslist.txt"
+
 rndataSets = as.character(t(read.table(filename,header=F,sep="\t",stringsAsFactors=F)))
 
 methods <- c("FE", "WebGestalt", "GOstats", "KS", "WRS", "GSEA", "GSA", "PADOG", 
@@ -72,6 +80,91 @@ length(allGenes)
 #load("/Users/GaMinh/Dropbox/WSU/Papers/PathwayReview/mygeneSym.RData")
 #load("/wsu/home/gd/gd03/gd0393/Pathway/mygeneSym.RData")
 
+##==================
+##  "ROntoTools",
+##==================
+myData <- list()
+for(i in 1:(length(dataSets))) {
+  
+  dataset=dataSets[i]
+  print(dataset)
+  load(paste(path,"reviewDatasets/", dataset,"/",dataset,".RData",sep=""))
+  
+  group <- get(paste("group_",dataset,sep=""))
+  annotation=get(paste("annotation_",dataset,sep=""))
+  
+  design=c("Not Paired")
+  
+  ano=paste(substring(annotation, 1, nchar(annotation)-3),"ENTREZID",sep="")
+  require(annotation, character.only = TRUE)
+  geneAno=as.data.frame(get(ano))
+  geneAnno=geneAno[,2]
+  names(geneAnno)=geneAno[,1]
+  allProbes=unique(geneAno$probe_id)
+  
+  data <- 2^get(paste("data_",dataset,sep=""))
+  data <- data[rownames(data)%in%allProbes,]
+  rownames(data) <- as.character(geneAnno[rownames(data)])
+  mydat <- aggregate(data,by=list(rownames(data)),FUN=median)
+  mydat <- mydat[paste("hsa:",mydat$Group.1,sep="")%in%allGenes,]
+  
+  
+  controlDat = mydat[,rownames(group[group$Group=="c",])]
+  rownames(controlDat) = as.character(mydat$Group.1)
+  
+  diseaseDat = mydat[,rownames(group[group$Group=="d",])]
+  rownames(diseaseDat) = as.character(mydat$Group.1)
+  
+  
+  controlMean <- log(apply(controlDat,MARGIN=1,mean),base=2)
+  diseaseMean <- log(apply(diseaseDat,MARGIN=1,mean),base=2)
+  
+  foldChange <- diseaseMean-controlMean
+  names(foldChange) <- paste("hsa:",names(foldChange),sep="")
+  
+  getTtestPvalue <- function(x, controlDat, diseaseDat) {  
+    if(var(t(controlDat[x,])) ==0  | var (t(diseaseDat[x,])) == 0 ) {return(1)}
+    else{
+      return ( t.test(t(controlDat[x,]),t(diseaseDat[x,]),paired=FALSE)$p.value)
+    }
+  }
+  
+  #if paired, needs some attention
+  pvalues <- sapply(seq(nrow(controlDat)), function (x) {getTtestPvalue(x, controlDat, diseaseDat)}) 
+  names(pvalues) <- names(foldChange)
+  
+  #DEGenes <- foldChange[(abs(foldChange)>FC) & (pvalues<PVAL)]
+  DEGenes <- sort(abs(foldChange[pvalues<PVAL]),decreasing=TRUE)
+  #maxDE=min(floor(length(allGenes)/10),length(DEGenes))
+  DEGenes <- DEGenes[1:min(maxDE,length(DEGenes))]
+  DEGenes <- foldChange[names(DEGenes)]
+  
+  
+  length(DEGenes)
+  
+  peRes=pe(x=DEGenes,graphs=kpg,ref=names(foldChange),nboot=iterno)
+  temp <-Summary(peRes, pathNames = kpn, totalAcc = FALSE, totalPert = FALSE,
+               pAcc = FALSE, pORA = FALSE, comb.pv = NULL, order.by = "pPert")
+  
+#  temp <- Summary(peRes)
+ # temp <- cbind.data.frame(temp,kpn[rownames(temp)])
+  #colnames(temp) <- c(colnames(Summary(peRes)), "pathway")
+  
+  # XX <- rep(NA,length(kpn))
+  # temp1=data.frame(row.names=names(kpn), Name=kpn, pPert=XX, 
+  #                  pPert.adj=XX, )
+  
+  #temp <- cbind.data.frame(temp$pathway, temp$pComb)
+  # rownames(temp) <- rownames(Summary(peRes))
+  # temp = na.omit(temp)
+  # head(temp)
+  myData[[i]] <- temp
+}
+
+names(myData) <- dataSets
+save(myData,file=paste(path, "researchDatasets/colonCancer_ROntoTools.RData",sep=""))
+
+## 
 ##==================
 ##  "FE",
 ##==================
